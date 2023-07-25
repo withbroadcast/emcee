@@ -1,10 +1,6 @@
 defmodule Emcee.Chat do
   alias Emcee.Prompt
 
-  @type t :: %__MODULE__{
-          template: String.t()
-        }
-
   @type message :: %{
           required(:role) => String.t(),
           required(:content) => String.t() | Prompt.t(),
@@ -12,7 +8,7 @@ defmodule Emcee.Chat do
         }
 
   @spec eval(t(), Keyword.t()) :: String.t()
-  def eval(%__MODULE__{template: template}, inputs) do
+  def eval(%Prompt{template: template}, inputs) do
     EEx.eval_string(template, inputs)
   end
 end
