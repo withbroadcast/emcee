@@ -21,14 +21,14 @@ defmodule Emcee.Model.Openai do
 
   @impl Model
   def generate(model, inputs, opts \\ []) do
-    cond model.prompt do
+    case model.prompt do
       %Prompt{} = prompt ->
         generate_completion(model, inputs, opts)
 
       messages when is_list(messages) ->
         generate_chat(model, inputs, opts)
 
-      true ->
+      _ ->
         raise ArgumentError, message: "Unexpected prompt: #{model.prompt}"
     end
   end
