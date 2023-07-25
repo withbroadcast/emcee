@@ -1,5 +1,6 @@
 defmodule Emcee.Model.Openai do
-  alias Emcee.{Model, Prompt, Chat}
+  alias Emcee.{Model, Prompt}
+  alias Emcee.Chat.Prompt, as: ChatPrompt
 
   @behaviour Model
 
@@ -44,7 +45,7 @@ defmodule Emcee.Model.Openai do
   end
 
   def generate_chat(model, inputs, opts) do
-    messages = Chat.eval(model.prompt, inputs)
+    messages = ChatPrompt.eval(model.prompt, inputs)
     params = Map.put(model.params, :messages, messages)
 
     opts
