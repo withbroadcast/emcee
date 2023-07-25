@@ -1,5 +1,6 @@
 defmodule Emcee.Model.Openai do
   alias Emcee.{Model, Prompt}
+  alias Emcee.Chat.Prompt, as: ChatPrompt
 
   @behaviour Model
 
@@ -21,14 +22,14 @@ defmodule Emcee.Model.Openai do
 
   @impl Model
   def generate(model, inputs, opts \\ []) do
-    cond model.prompt do
-      %Prompt{} = prompt ->
+    case model.prompt do
+      %Prompt{} ->
         generate_completion(model, inputs, opts)
 
       messages when is_list(messages) ->
         generate_chat(model, inputs, opts)
 
-      true ->
+      _ ->
         raise ArgumentError, message: "Unexpected prompt: #{model.prompt}"
     end
   end
@@ -44,7 +45,7 @@ defmodule Emcee.Model.Openai do
   end
 
   def generate_chat(model, inputs, opts) do
-    messages = Chat.eval(model.prompt, inputs)
+    messages = ChatPrompt.eval(model.prompt, inputs)
     params = Map.put(model.params, :messages, messages)
 
     opts

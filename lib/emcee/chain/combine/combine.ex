@@ -3,13 +3,13 @@ defmodule Emcee.Chain.Combine do
   Given a set of documents, combine them into a single document.
   """
 
-  alias Emcee.Model
+  # alias Emcee.Model
 
   def new(opts) do
     opts
   end
 
-  def run(model, opts) do
+  def run(_model, _opts) do
     {:ok, "Combine"}
   end
 end
