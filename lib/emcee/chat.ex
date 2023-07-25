@@ -1,6 +1,10 @@
 defmodule Emcee.Chat do
   alias Emcee.Prompt
 
+  @type t :: %__MODULE__{
+          template: String.t()
+        }
+
   @type message :: %{
           required(:role) => String.t(),
           required(:content) => String.t() | Prompt.t(),
