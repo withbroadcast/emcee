@@ -7,7 +7,7 @@ defmodule Emcee.Chat do
           optional(:name) => String.t()
         }
 
-  @spec eval(t(), Keyword.t()) :: String.t()
+  @spec eval(Prompt.t(), Keyword.t()) :: String.t()
   def eval(%Prompt{template: template}, inputs) do
     EEx.eval_string(template, inputs)
   end
