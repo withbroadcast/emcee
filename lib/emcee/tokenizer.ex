@@ -39,6 +39,8 @@ defmodule Emcee.Tokenizer do
   def count_tokens(text_or_messages, model \\ @default_model)
 
   def count_tokens(messages, model) when is_list(messages) do
+    IO.inspect(model)
+
     if model not in @chat_models do
       raise RuntimeError, "Model #{inspect(model)} is not a supported chat model"
     end
