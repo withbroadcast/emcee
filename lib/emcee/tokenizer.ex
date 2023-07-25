@@ -8,6 +8,8 @@ defmodule Emcee.Tokenizer do
   @chat_models ~w(
     gpt-4
     gpt-3.5-turbo
+    gpt-3.5-turbo-0301
+    gpt-3.5-turbo-16k
   )
 
   defp default_encoding(model) when model in @chat_models, do: Tiktoken.CL100K
@@ -53,6 +55,7 @@ defmodule Emcee.Tokenizer do
   @tokens_per_name %{
     "gpt-3.5-turbo" => -1,
     "gpt-3.5-turbo-0301" => -1,
+    "gpt-3.5-turbo-16k" => -1,
     "gpt-4" => 1,
     "gpt-4-0314" => 1
   }
@@ -64,6 +67,7 @@ defmodule Emcee.Tokenizer do
   @tokens_per_message %{
     "gpt-3.5-turbo" => 4,
     "gpt-3.5-turbo-0301" => 4,
+    "gpt-3.5-turbo-16k" => 4,
     "gpt-4" => 3,
     "gpt-4-0314" => 3
   }
@@ -71,13 +75,16 @@ defmodule Emcee.Tokenizer do
   defp tokens_per_message(model), do: Map.get(@tokens_per_message, model)
 
   defp count_chat_tokens(messages, model) do
-    Enum.reduce(messages, @tokens_per_reply, fn msg, sum -> sum + count_message_tokens(msg, model) end)
+    Enum.reduce(messages, @tokens_per_reply, fn msg, sum ->
+      sum + count_message_tokens(msg, model)
+    end)
   end
 
   defp count_message_tokens(message, model) do
-    tokens_per_message(model) + Enum.reduce(message, 0, fn {k, v}, sum ->
-      count_tokens(v, model) + tokens_for_key(k, model) + sum
-    end)
+    tokens_per_message(model) +
+      Enum.reduce(message, 0, fn {k, v}, sum ->
+        count_tokens(v, model) + tokens_for_key(k, model) + sum
+      end)
   end
 
   defp tokens_for_key(:name, model), do: Map.get(@tokens_per_name, model, 1)

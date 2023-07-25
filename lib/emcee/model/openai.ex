@@ -22,7 +22,7 @@ defmodule Emcee.Model.Openai do
   @impl Model
   def generate(model, inputs, opts \\ []) do
     case model.prompt do
-      %Prompt{} = prompt ->
+      %Prompt{} ->
         generate_completion(model, inputs, opts)
 
       messages when is_list(messages) ->
