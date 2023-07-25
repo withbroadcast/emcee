@@ -1,5 +1,5 @@
 defmodule Emcee.Model.Openai do
-  alias Emcee.{Model, Prompt}
+  alias Emcee.{Model, Prompt, Chat}
 
   @behaviour Model
 
